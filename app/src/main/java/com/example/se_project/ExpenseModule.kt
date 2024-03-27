@@ -1,15 +1,16 @@
 package com.example.se_project
 
-class ExpenseModule(
-    var expenseId: String,
-    var note: String,
-    var category: String,
-    var amount: Long,
-    var time: Long
+data class ExpenseModule(
+    var expenseId: String = "",
+    var note: String = "",
+    var category: String = "",
+    var type: String? = null,
+    var amount: Long = 0L,
+    var time: Long = 0L,
+    var uid: String = ""
 ) {
-    // You can also override toString() for a meaningful representation of the object
+    // Override toString() for debugging
     override fun toString(): String {
-        return "ExpenseModule(expenseId='$expenseId', note='$note', category='$category', amount=$amount, time=$time)"
+        return "ExpenseModule(expenseId='$expenseId', note='$note', category='$category', type=$type, amount=$amount, time=$time, uid='$uid')"
     }
 }
-

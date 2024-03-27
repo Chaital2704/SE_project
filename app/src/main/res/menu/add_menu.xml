@@ -5,5 +5,5 @@
        android:title="Save"
        android:id="@+id/saveExpense"
        android:icon="@drawable/dollar"
-       app:showsAsAction="always"/>
+       app:showAsAction="always"/>
 </menu>

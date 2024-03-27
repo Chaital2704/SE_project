@@ -1,9 +1,13 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SE_project" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <!-- Base theme that includes an ActionBar -->
+    <style name="Theme.SE_project" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your base theme here -->
     </style>
 
-    <style name="Theme.SE_project" parent="Base.Theme.SE_project" />
+    <!-- Theme variant without an ActionBar -->
+    <style name="Theme.SE_project.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your NoActionBar theme variant here.
+             You can add the same customizations as in Theme.SE_project if needed. -->
+    </style>
 </resources>
+
