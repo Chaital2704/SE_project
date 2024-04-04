@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This shape drawable defines a linear gradient from dark pink to light pink -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Gradient starts with a dark pink color and fades into a light pink color -->
+    <gradient
+        android:startColor="#ffb7c3"
+        android:endColor="#bee1e6"
+        android:angle="270"/>
+</shape>
+
