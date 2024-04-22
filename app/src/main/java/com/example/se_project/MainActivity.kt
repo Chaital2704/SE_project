@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.loginButton.setOnClickListener(View.OnClickListener {
-            if(binding.username.text.toString()==""&& binding.password.text.toString()=="") {
+            if(binding.username.text.toString()=="user"&& binding.password.text.toString()=="1234") {
                 Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity2::class.java)
                 startActivity(intent)

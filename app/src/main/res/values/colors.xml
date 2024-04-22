@@ -7,5 +7,7 @@
     <color name="pink2">#d8e2dc</color>
     <color name="green">#00FF00</color>
     <color name="red">#FF0000</color>
-    <color name="purple"> #cdb4db</color>
+    <color name="purple"> #b284be</color>
+    <color name="pink_50">#80FFC0CB</color> <!-- Replace FFC0CB with the hex code for your desired shade of pink -->
+
 </resources>

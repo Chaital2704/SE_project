@@ -1,11 +1,10 @@
 package com.example.se_project
+import com.airbnb.lottie.LottieAnimationView
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.LineHeightSpan
-import android.text.style.RelativeSizeSpan
+import android.view.View
+
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,11 +25,13 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
     private lateinit var expensesAdapter: ExpensesAdapter
     private lateinit var addExpenseLauncher: ActivityResultLauncher<Intent>
     private var balance: Long = 0
+    private lateinit var loadingAnimation: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
+        loadingAnimation = findViewById(R.id.loadingAnimation)
 
         updateGreetingMessage()
         handleAuthentication()
@@ -38,7 +39,20 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
         setupRecyclerView()
         setupButtons()
         signInAnonymously()
+        showLoading(true)
     }
+    private fun showLoading(show: Boolean, delay: Long = 0L) {
+        if (show) {
+            binding.loadingAnimation.visibility = View.VISIBLE
+        } else {
+            // Delay hiding the animation
+            binding.loadingAnimation.postDelayed({
+                binding.loadingAnimation.visibility = View.GONE
+            }, delay)
+        }
+    }
+
+
     private fun handleAuthentication() {
         FirebaseAuth.getInstance().addAuthStateListener { firebaseAuth ->
             if (firebaseAuth.currentUser != null) {
@@ -86,6 +100,15 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
             val intent = Intent(this, AddExpense::class.java).apply { putExtra("type", "Expense") }
             addExpenseLauncher.launch(intent)
         }
+        binding.monthlyExpense.setOnClickListener {
+            val intent = Intent(this, MonthlyExpensesActivity::class.java)
+            startActivity(intent)
+        }
+        binding.BarChart.setOnClickListener {
+            val intent = Intent(this, BarChartActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun signInAnonymously() {
@@ -97,40 +120,7 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
             }
         }
     }
-//    private fun updateBalanceDisplay() {
-//        val balanceText = "Your Balance\n$balance"
-//        val balanceIndex = balanceText.indexOf("$balance")
-//        val spannableString = SpannableString(balanceText)
-//
-//        spannableString.setSpan(
-//            RelativeSizeSpan(1.5f), // Set the relative size to 1.5 times the default size
-//            balanceIndex,
-//            balanceIndex + balance.toString().length,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//
-//        // Apply custom line height for the part before the balance amount
-//        spannableString.setSpan(
-//            object : LineHeightSpan {
-//                override fun chooseHeight(
-//                    text: CharSequence?,
-//                    start: Int,
-//                    end: Int,
-//                    spanstartv: Int,
-//                    lineHeight: Int,
-//                    fm: android.graphics.Paint.FontMetricsInt
-//                ) {
-//                    fm.bottom += 16 // Adjust bottom as needed
-//                    fm.descent += 16 // Adjust descent as needed
-//                }
-//            },
-//            0,
-//            balanceIndex,
-//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//        )
-//
-//        binding.bal.text = spannableString
-//    }
+
     private fun updateGreetingMessage() {
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val greeting = when (hour) {
@@ -139,7 +129,7 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
             in 17..23 -> "Good Evening"
             else -> "Hello"
         }
-        binding.greetingTextView.text = "$greeting, User!" // Assuming you have a TextView with the id greetingTextView in your layout
+        binding.greetingTextView.text = "$greeting!" // Assuming you have a TextView with the id greetingTextView in your layout
     }
 
 
@@ -152,6 +142,7 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
 
     private fun getData() {
         val uid = FirebaseAuth.getInstance().uid ?: return
+        showLoading( true)
         val calendar = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
@@ -176,15 +167,17 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
                         expensesAdapter.add(expense)
                         when {
                             expense.time in startOfDay..endOfDay && expense.type == "Expense" -> totalExpensesToday += expense.amount
-                            expense.time in startOfDay..endOfDay && expense.type == "Income" -> totalExpensesToday -= expense.amount
+
                         }
                         balance += if (expense.type == "Income") expense.amount else -expense.amount
                     }
                 }
                 updateUI(totalExpensesToday)
+                showLoading(false, 2000)
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Failed to fetch expenses: ${e.message}", Toast.LENGTH_SHORT).show()
+                showLoading(false, 2000)
             }
     }
 
@@ -214,6 +207,7 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
             .show()
     }
 
+
     private fun deleteExpense(expenseId: String) {
         FirebaseFirestore.getInstance().collection("expenses")
             .document(expenseId)
@@ -226,4 +220,5 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
                 Toast.makeText(this, "Error deleting expense: ${e.message}", Toast.LENGTH_LONG).show()
             }
     }
+
 }

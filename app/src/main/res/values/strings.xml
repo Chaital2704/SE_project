@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">SE_project</string>
+    <string name="category_prompt">Choose a category</string>
+    <string-array name="category_options">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Utilities</item>
+        <item>Personal</item>
+        <item>Housing</item>
+        <!-- Add more categories here -->
+    </string-array>
 </resources>

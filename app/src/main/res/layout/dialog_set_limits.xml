@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etHousingLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Housing Limit"
+            android:inputType="numberDecimal"/>
+        <EditText
+            android:id="@+id/etFoodLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Food Limit"
+            android:inputType="numberDecimal"/>
+        <EditText
+            android:id="@+id/etUtilitiesLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Utilities Limit"
+            android:inputType="numberDecimal"/>
+        <EditText
+            android:id="@+id/etTransportationLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Transportation Limit"
+            android:inputType="numberDecimal"/>
+        <EditText
+            android:id="@+id/etPersonalLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Personal Limit"
+            android:inputType="numberDecimal"/>
+
+
+        <!-- Add EditTexts for Utilities, Food, Transportation, Personal -->
+
+    </LinearLayout>
+

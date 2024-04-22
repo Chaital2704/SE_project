@@ -42,20 +42,28 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:textSize="22dp" />
 
-            <TextView
-                android:id="@+id/bal"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/custom_editbalance"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                android:text="Your Balance\n30,000"
-                android:textColor="@color/white"
-                android:textSize="25sp" />
+
+                app:cardCornerRadius="8dp">
+
+                <TextView
+                    android:id="@+id/bal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple"
+                    android:padding="16dp"
+                    android:text="Your Balance\n30,000"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+            </androidx.cardview.widget.CardView>
+
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -74,6 +82,39 @@
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:weightSum="2"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/BarChart"
+                    android:text="Weekly Expenses"
+                    android:background="@color/purple"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/monthlyExpense"
+                    android:text="Monthly info"
+                    android:background="@color/purple"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -114,8 +155,23 @@
             android:layout_weight="1"/>
 
     </LinearLayout>
-
+    <com.airbnb.lottie.LottieAnimationView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loadingAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:background="@color/pink2"
+        app:lottie_fileName="Animation_exp.json"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 
 </RelativeLayout>
+
+
