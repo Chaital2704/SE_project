@@ -46,23 +46,28 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.google.firebase:firebase-firestore:24.11.0")
+    implementation("com.google.firebase:firebase-firestore:24.11.1")
     testImplementation("junit:junit:4.13.2")
+    testImplementation ("androidx.test:core:1.5.0")
+    testImplementation ("org.mockito:mockito-core:5.11.0")
+    testImplementation ("org.mockito:mockito-inline:4.0.0")
+    testImplementation ("org.robolectric:robolectric:4.12.1")
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.google.android.material:material:1.11.0")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    implementation ("androidx.activity:activity-ktx:1.8.2")
+    implementation ("androidx.activity:activity-ktx:1.9.0")
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation ("com.google.android.material:material:1.5.0")
+    implementation ("com.google.android.material:material:1.11.0")
     implementation ("com.airbnb.android:lottie:6.4.0")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     // JUnit 4 framework
 
 

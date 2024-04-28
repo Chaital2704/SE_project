@@ -34,7 +34,7 @@
             android:name=".MonthlyExpensesActivity"
             android:exported="false" />
         <activity
-            android:name=".BarChartActivity"
+            android:name=".NewBarChartActivity"
             android:exported="true" />
     </application>
 

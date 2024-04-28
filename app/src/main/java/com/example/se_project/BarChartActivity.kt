@@ -97,41 +97,40 @@ interface WeeklyExpensesCallback {
 
     private fun getWeeklyExpenses(callback: WeeklyExpensesCallback) {
         val db = FirebaseFirestore.getInstance()
-        val uid = FirebaseAuth.getInstance().uid
-        val startOfWeek: Calendar = Calendar.getInstance()
-        val endOfWeek: Calendar = Calendar.getInstance()
+        val uid = FirebaseAuth.getInstance().uid ?: return // Handle null UID case early
 
-        // Adjusting startOfWeek to the beginning of the week (Sunday)
-        startOfWeek.set(Calendar.HOUR_OF_DAY, 0)
-        startOfWeek.clear(Calendar.MINUTE)
-        startOfWeek.clear(Calendar.SECOND)
-        startOfWeek.clear(Calendar.MILLISECOND)
-        startOfWeek.set(Calendar.DAY_OF_WEEK, startOfWeek.firstDayOfWeek)
+        val startOfWeek: Calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            clear(Calendar.MINUTE)
+            clear(Calendar.SECOND)
+            clear(Calendar.MILLISECOND)
+            set(Calendar.DAY_OF_WEEK, firstDayOfWeek)
+        }
 
-        // Adjusting endOfWeek to the end of the week (Saturday)
-        endOfWeek.set(Calendar.HOUR_OF_DAY, 23)
-        endOfWeek.set(Calendar.MINUTE, 59)
-        endOfWeek.set(Calendar.SECOND, 59)
-        endOfWeek.set(Calendar.MILLISECOND, 999)
-        endOfWeek.set(Calendar.DAY_OF_WEEK, startOfWeek.firstDayOfWeek + 6) // Assuming Sunday is the first day
-
-        val weeklyExpenses = MutableList(7) { 0f } // Initialize with zeros
+        val endOfWeek: Calendar = (startOfWeek.clone() as Calendar).apply {
+            add(Calendar.DATE, 6)
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+            set(Calendar.MILLISECOND, 999)
+        }
 
         db.collection("expenses")
             .whereEqualTo("uid", uid)
             .whereGreaterThanOrEqualTo("date", Timestamp(startOfWeek.time))
             .whereLessThanOrEqualTo("date", Timestamp(endOfWeek.time))
             .get()
-            .addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
-                for (document in queryDocumentSnapshots.documents) {
-                    val date = document.getTimestamp("date")
-                    val amount = document.getDouble("amount")
-                    if (date != null && amount != null) {
-                        val expenseDate: Calendar = Calendar.getInstance()
-                        expenseDate.time = date.toDate()
-                        var dayOfWeek = expenseDate.get(Calendar.DAY_OF_WEEK) - startOfWeek.firstDayOfWeek
-                        if (dayOfWeek < 0) dayOfWeek += 7 // Adjust for different locales
-                        weeklyExpenses[dayOfWeek] += amount.toFloat()
+            .addOnSuccessListener { documents ->
+                val weeklyExpenses = MutableList(7) { 0f }
+                for (document in documents) {
+                    document.getTimestamp("date")?.toDate()?.let { date ->
+                        document.getDouble("amount")?.toFloat()?.let { amount ->
+                            Calendar.getInstance().apply {
+                                time = date
+                                val dayOfWeek = get(Calendar.DAY_OF_WEEK) - startOfWeek.get(Calendar.DAY_OF_WEEK)
+                                weeklyExpenses[(dayOfWeek + 7) % 7] += amount // Safely index within bounds
+                            }
+                        }
                     }
                 }
                 callback.onCallback(weeklyExpenses)

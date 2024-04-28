@@ -124,7 +124,11 @@ class MonthlyExpensesActivity : AppCompatActivity() {
                 var total = 0f
                 documents.forEach { document ->
                     val expense = document.toObject(ExpenseModule::class.java)
-                    total += expense.amount
+                    if (expense.type == "Expense") {
+                        total += expense.amount  // Add if it's an expense
+                    } else if (expense.type == "Income") {
+                        total -= expense.amount  // Subtract if it's an income
+                    }
                 }
                 callback(total)
             }
@@ -132,6 +136,7 @@ class MonthlyExpensesActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error fetching expenses: ${e.message}", Toast.LENGTH_LONG).show()
             }
     }
+
 
     private fun getUserDefinedLimit(category: String): Float {
         val sharedPreferences = getSharedPreferences("ExpenseLimits", Context.MODE_PRIVATE)

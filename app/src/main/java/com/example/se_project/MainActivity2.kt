@@ -27,6 +27,22 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
     private var balance: Long = 0
     private lateinit var loadingAnimation: LottieAnimationView
 
+    private var _firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    var firebaseAuth: FirebaseAuth
+        get() = _firebaseAuth
+        set(value) {
+            _firebaseAuth = value
+            // Optional: Additional logic when setting FirebaseAuth
+        }
+    private var _firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    var firestore: FirebaseFirestore
+        get() = _firestore
+        set(value) {
+            _firestore = value
+            // Optional: Add logic here that needs to run when firestore is set
+        }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMain2Binding.inflate(layoutInflater)
@@ -105,13 +121,13 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
             startActivity(intent)
         }
         binding.BarChart.setOnClickListener {
-            val intent = Intent(this, BarChartActivity::class.java)
+            val intent = Intent(this, NewBarChartActivity::class.java)
             startActivity(intent)
         }
 
     }
 
-    private fun signInAnonymously() {
+    fun signInAnonymously() {
         if (FirebaseAuth.getInstance().currentUser == null) {
             FirebaseAuth.getInstance().signInAnonymously().addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -208,7 +224,7 @@ class MainActivity2 : AppCompatActivity(), ExpenseActionsListener {
     }
 
 
-    private fun deleteExpense(expenseId: String) {
+    fun deleteExpense(expenseId: String) {
         FirebaseFirestore.getInstance().collection("expenses")
             .document(expenseId)
             .delete()

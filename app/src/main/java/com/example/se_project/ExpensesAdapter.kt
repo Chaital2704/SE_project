@@ -84,7 +84,7 @@ class ExpensesAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun add(expenseModel: ExpenseModule) {
-        expenseModuleList.add(expenseModel)
+        expenseModuleList.add(0,expenseModel)
         notifyDataSetChanged()
     }
 
